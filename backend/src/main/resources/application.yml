@@ -1,0 +1,171 @@
+spring:
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:prod}
+    group:
+      local:
+        - common
+        - local-db
+      prod:
+        - common
+        - prod-db
+
+---
+spring:
+  config:
+    activate:
+      on-profile: common
+
+
+springdoc:
+  api-docs:
+    path: /${PATH_PREFIX}-swagger/api-docs
+  swagger-ui:
+    path: /${PATH_PREFIX}-swagger/index.html
+
+management:
+  info:
+    java:
+      enabled: true
+    os:
+      enabled: true
+    env:
+      enabled: true
+  server:
+    tomcat:
+      mbeanregistry:
+        enabled: true
+    port: 8080
+  endpoint:
+    health:
+      #show-components: always
+      show-details: always
+  endpoints:
+    web:
+      base-path: /${PATH_PREFIX}-actuator
+      exposure:
+        include: "*"
+  health:
+    redis:
+      enabled: true
+
+server:
+  tomcat:
+    threads:
+      max: ${TOMCAT_MAX_THREADS:10}  # 환경 변수 TOMCAT_MAX_THREADS를 사용, 기본값은 200
+      min-spare: ${TOMCAT_MIN_SPARE_THREADS:10}  # 환경 변수 TOMCAT_MIN_SPARE_THREADS를 사용, 기본값은 10
+    connection-timeout: ${TOMCAT_CONNECTION_TIMEOUT:20000}  # 환경 변수 TOMCAT_CONNECTION_TIMEOUT을 사용, 기본값은 20000 (20초)
+    accept-count: ${TOMCAT_ACCEPT_COUNT:10}  # 환경 변수 TOMCAT_ACCEPT_COUNT를 사용, 기본값은 100
+
+
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local-db
+  datasource:
+    mariadb:
+      driver-class-name: org.mariadb.jdbc.Driver
+      jdbc-url: jdbc:mariadb://192.168.0.126:3306/comparedb
+      username: ${DB_USERNAME}
+      password: ${DB_PASSWORD}
+      maximum-pool-size: 3
+
+    postgres:
+      driver-class-name: org.postgresql.Driver
+      jdbc-url: jdbc:postgresql://192.168.0.126:5432/comparedb
+      username: ${DB_USERNAME}
+      password: ${DB_PASSWORD}
+      maximum-pool-size: 2
+
+    oracle:
+      driver-class-name: oracle.jdbc.OracleDriver
+      jdbc-url: jdbc:oracle:thin:@192.168.0.126:1521:xe?useUnicode=true&characterEncoding=UTF-8
+      username: ${DB_USERNAME}
+      password: ${DB_PASSWORD}
+      maximum-pool-size: 1
+      
+  data:
+    redis:
+      host: 192.168.0.71
+      port: 6379
+#      lettuce:
+#        pool:
+#          enabled: true
+#          max-active: 3  # 최대 연결 수
+#          max-idle: 3    # 최대 유휴 연결 수
+#          min-idle: 3    # 최소 유휴 연결 수
+
+# 로그 레벨 설정
+logging:
+  level:
+    all.db.compare: DEBUG
+    org:
+      apache.catalina: DEBUG
+      springframework:
+        jdbc: DEBUG
+        web: DEBUG
+    com:
+      zaxxer:
+        hikari: DEBUG
+
+cors:
+  allowed-origins: ${CORS_ALLOWED_ORIGINS:http://127.0.0.1:5519}
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod-db
+  datasource:
+    mariadb:
+      driver-class-name: org.mariadb.jdbc.Driver
+      jdbc-url: jdbc:mariadb://${DB_HOST}:3306/comparedb
+      username: ${DB_USERNAME}
+      password: ${DB_PASSWORD}
+      maximum-pool-size: ${POOL_SIZE_MARIADB:10}
+      pool-name: MariaDBPool
+
+    postgres:
+      driver-class-name: org.postgresql.Driver
+      jdbc-url: jdbc:postgresql://${DB_HOST}:5432/comparedb
+      username: ${DB_USERNAME}
+      password: ${DB_PASSWORD}
+      maximum-pool-size: ${POOL_SIZE_POSTGRES:10}
+      pool-name: PostgresPool
+
+    oracle:
+      driver-class-name: oracle.jdbc.OracleDriver
+      jdbc-url: jdbc:oracle:thin:@${DB_HOST}:1521:xe?useUnicode=true&characterEncoding=UTF-8
+      username: ${DB_USERNAME}
+      password: ${DB_PASSWORD}
+      maximum-pool-size: ${POOL_SIZE_ORACLE:2}
+      pool-name: OraclePool
+
+  data:
+    redis:
+      host: ${REDIS_HOST:192.168.0.71}
+      port: ${REDIS_PORT:6379}
+#      lettuce:
+#        pool:
+#          enabled: true
+#          max-active: 2  # 최대 연결 수
+#          max-idle: 2    # 최대 유휴 연결 수
+#          min-idle: 2    # 최소 유휴 연결 수
+
+# 로그 레벨 설정
+logging:
+  level:
+    ROOT: WARN
+    all.db.compare: ${LOG_LEVEL:INFO}
+    org:
+      apache.catalina: ${LOG_LEVEL:WARN}
+      springframework:
+        jdbc: ${LOG_LEVEL:WARN}
+        web: ${LOG_LEVEL:WARN}
+    com:
+      zaxxer:
+        hikari: ${LOG_LEVEL:WARN}
+
+cors:
+  allowed-origins: ${CORS_ALLOWED_ORIGINS:https://comparedb.netlify.app}

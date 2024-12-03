@@ -1,0 +1,145 @@
+@font-face {
+    font-family: 'DungGeunMo-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/wooin21/web/fonts/etc/DungGeunMo-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+html,
+body,
+pre,
+code,
+kbd,
+samp {
+    font-family: 'DungGeunMo-Regular', 'Fixedsys', monospace;
+}
+
+#queryContainers {
+    display: flex;
+    /* Flexbox를 사용하여 요소들이 가로로 배치됨 */
+    flex-wrap: wrap;
+    /* 화면 크기가 줄어들면 다음 줄로 이동 */
+    margin-top: 10px;
+    /* 상단 여백 */
+}
+
+.query-container {
+    flex: 1;
+    /* 각 쿼리 컨테이너가 동일한 너비를 가짐 */
+    padding: 10px;
+    /* 간격 조정 */
+    min-width: 300px;
+    /* 최소 너비 설정 */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    /* 옵션: 그림자 추가 */
+}
+
+/* 테이블이 넘칠 경우 가로 스크롤 활성화 */
+.tableContainer {
+    overflow-x: auto;
+    /* 가로 스크롤 활성화 */
+    width: 100%;
+    /* 컨테이너 크기 설정 */
+}
+
+/* 테이블 셀의 줄바꿈 방지 및 공백 유지 */
+.table td {
+    white-space: nowrap;
+    /* 줄바꿈 방지 */
+}
+
+/* 비교 결과 스타일 */
+.highlight-difference {
+    background-color: #ffe6e6 !important;
+    position: relative;
+    cursor: pointer;
+}
+
+.highlight-missing {
+    background-color: #fff3cd !important;
+    position: relative;
+    cursor: pointer;
+}
+
+/* 툴팁 스타일 */
+.difference-tooltip {
+    display: none;
+    position: absolute;
+    background: #333;
+    color: white;
+    padding: 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    z-index: 1000;
+    white-space: nowrap;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* 툴팁 표시 트리거 */
+.highlight-difference:hover .difference-tooltip,
+.highlight-missing:hover .difference-tooltip {
+    display: block;
+}
+
+/* 툴팁 화살표 */
+.difference-tooltip::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 0 6px 6px 6px;
+    border-style: solid;
+    border-color: transparent transparent #333 transparent;
+}
+
+
+/* btn, btn-outline-warning, active 클래스를 모두 가진 버튼에 CSS 적용 */
+.btn.btn-outline-warning.active {
+    background-color: #ffc107;
+    /* 기본적인 노란색 아웃라인 */
+    box-shadow: 0 0 2px 2px rgba(255, 223, 0, 0.1);
+    /* 깜빡이는 애니메이션 */
+    animation: yellowGlow 1s infinite alternate;
+}
+
+/* 깜빡이는 효과 애니메이션 */
+@keyframes yellowGlow {
+    0% {
+        box-shadow: 0 0 8px 4px rgba(255, 223, 0, 0.1);
+    }
+    100% {
+        box-shadow: 0 0 12px 8px rgba(255, 223, 0, 0.3);
+    }
+}
+
+/* 가이드 팝업 스타일 */
+.guide-popup {
+    position: fixed;
+    top: 20px;
+    /* 아이콘 위치에 맞춰 조정 */
+    left: 60px;
+    /* 아이콘 오른쪽으로 60px 이동 */
+    background: #333;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    z-index: 1050;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* 팝업의 작은 화살표 */
+.guide-popup::after {
+    content: '';
+    position: absolute;
+    top: 32%;
+    left: -14px;
+    transform: translateY(-50%);
+    border-width: 8px;
+    border-style: solid;
+    border-color: transparent #333 transparent transparent;
+}

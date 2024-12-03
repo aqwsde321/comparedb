@@ -1,0 +1,8 @@
+docker rmi qrqr/allcomparedb:v1.1
+docker rmi qrqr/allcomparedb:latest
+
+docker build --no-cache -t qrqr/allcomparedb:v1.1 .
+docker tag qrqr/allcomparedb:v1.1 qrqr/allcomparedb:latest
+
+docker push qrqr/allcomparedb:v1.1
+docker push qrqr/allcomparedb:latest
