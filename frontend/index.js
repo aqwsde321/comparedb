@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('Error loading dbList:', error);
         new QueryContainerManager(["MARIADB", "POSTGRES", "ORACLE"]);
         new DatabaseMenuIconManager(["MARIADB", "POSTGRES", "ORACLE"]);
+        alert("현재 서버 작업으로 DB 연결이 안됩니다.");
     });
 });
 
