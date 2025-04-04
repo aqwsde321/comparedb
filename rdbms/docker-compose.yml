@@ -1,0 +1,44 @@
+services:
+  oracle:
+    container_name: oracle_db
+    image: gvenzl/oracle-xe:18.4.0-slim
+    environment:
+      ORACLE_PASSWORD: ${COMPAREDB_PASSWORD}
+      NLS_DATE_FORMAT: 'YYYY-MM-DD'
+#      NLS_LANG: 'KOREAN_KOREA.UTF8'
+    ports:
+      - "1521:1521"
+    volumes:
+      - oracle_data:/opt/oracle/oradata
+      - ./rdbs/oracle/init.sql:/docker-entrypoint-initdb.d/init.sql  # SQL 파일 마운트
+
+  postgres:
+    container_name: postgres_db
+    image: postgres:15.8
+    environment:
+      POSTGRES_DB: comparedb
+      POSTGRES_PASSWORD: ${COMPAREDB_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./rdbs/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql  # SQL 파일 마운트
+
+  mariadb:
+    container_name: mariadb_db
+    image: mariadb:10.5
+    environment:
+      MYSQL_DATABASE: comparedb
+      MYSQL_ROOT_PASSWORD: ${COMPAREDB_PASSWORD}
+      MYSQL_CHARSET: utf8mb4
+    ports:
+      - "3306:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+      - ./rdbs/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql  # SQL 파일 마운트
+
+volumes:
+  oracle_data:
+  postgres_data:
+  mariadb_data:
+

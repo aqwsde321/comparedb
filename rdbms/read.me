@@ -1,0 +1,30 @@
+# aws ec2 docker 설치
+https://docs.aws.amazon.com/ko_kr/serverless-application-model/latest/developerguide/install-docker.html
+
+sudo yum update -y
+sudo yum install -y docker
+sudo service docker start
+sudo usermod -a -G docker ec2-user
+재접속
+docker ps
+
+# docker compose 설치 
+https://jsonobject.tistory.com/8
+
+sudo curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+docker-compose --version
+
+# aws ec2 메모리 swap 설정
+https://suddiyo.tistory.com/entry/AWS-EC2-%ED%94%84%EB%A6%AC%ED%8B%B0%EC%96%B4-%EB%A9%94%EB%AA%A8%EB%A6%AC-%EB%B6%80%EC%A1%B1-%EB%AC%B8%EC%A0%9C-Swap-%EB%A9%94%EB%AA%A8%EB%A6%AC-%EC%84%A4%EC%A0%95
+2gb 설정(프리티어 기준)
+
+sudo dd if=/dev/zero of=/swapfile bs=128M count=16
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
+sudo vi /etc/fstab
+/swapfile swap swap defaults 0 0
+free -m
+
+
