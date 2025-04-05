@@ -66,28 +66,28 @@ spring:
   datasource:
     mariadb:
       driver-class-name: org.mariadb.jdbc.Driver
-      jdbc-url: jdbc:mariadb://192.168.0.126:3306/comparedb
+      jdbc-url: jdbc:mariadb://192.168.0.233:3306/comparedb
       username: ${DB_USERNAME}
       password: ${DB_PASSWORD}
       maximum-pool-size: 3
 
     postgres:
       driver-class-name: org.postgresql.Driver
-      jdbc-url: jdbc:postgresql://192.168.0.126:5432/comparedb
+      jdbc-url: jdbc:postgresql://192.168.0.233:5432/comparedb
       username: ${DB_USERNAME}
       password: ${DB_PASSWORD}
       maximum-pool-size: 2
 
     oracle:
       driver-class-name: oracle.jdbc.OracleDriver
-      jdbc-url: jdbc:oracle:thin:@192.168.0.126:1521:xe?useUnicode=true&characterEncoding=UTF-8
+      jdbc-url: jdbc:oracle:thin:@192.168.0.233:1521:xe?useUnicode=true&characterEncoding=UTF-8
       username: ${DB_USERNAME}
       password: ${DB_PASSWORD}
       maximum-pool-size: 1
       
   data:
     redis:
-      host: 192.168.0.71
+      host: 192.168.0.233
       port: 6379
 #      lettuce:
 #        pool:
@@ -110,7 +110,7 @@ logging:
         hikari: DEBUG
 
 cors:
-  allowed-origins: ${CORS_ALLOWED_ORIGINS:http://127.0.0.1:5519}
+  allowed-origins: ${CORS_ALLOWED_ORIGINS:http://127.0.0.1:5555}
 
 ---
 spring:
